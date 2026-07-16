@@ -1,0 +1,100 @@
+.postjob-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    min-height: 100vh;
+    background: #f8f9fa;
+}
+
+.postjob-card {
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.postjob-card h1 {
+    color: #0F766E;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 28px;
+}
+
+.postjob-card p {
+    text-align: center;
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.postjob-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.postjob-card form div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.postjob-card label {
+    display: block;
+    font-weight: 600;
+    color: #0F766E;
+    font-size: 14px;
+}
+
+.postjob-card input,
+.postjob-card textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+}
+
+.postjob-card input:focus,
+.postjob-card textarea:focus {
+    outline: none;
+    border-color: #0F766E;
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+}
+
+.postjob-card input[type="date"] {
+    cursor: pointer;
+}
+
+.postjob-card p[style] {
+    margin-top: 6px;
+    margin-bottom: 0;
+    font-size: 13px !important;
+}
+
+.submit-btn {
+    width: 100%;
+    background: #F4C542;
+    color: #0F766E;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: #FFD95E;
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}

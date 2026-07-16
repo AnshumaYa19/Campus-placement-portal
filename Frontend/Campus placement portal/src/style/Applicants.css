@@ -1,0 +1,36 @@
+.applicants-container{
+    width:90%;
+    margin:40px auto;
+}
+
+.applicant-card{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    margin-bottom:20px;
+}
+
+.button-group{
+    display:flex;
+    gap:12px;
+    margin-top:15px;
+}
+
+.accept-btn{
+    background:#16A34A;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.reject-btn{
+    background:#DC2626;
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:10px;
+    cursor:pointer;
+}

@@ -1,0 +1,26 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#E7EFDC;
+    color:#0B3F3A;
+}
+
+button{
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+input,
+select,
+textarea{
+    outline:none;
+}
