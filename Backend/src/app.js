@@ -13,7 +13,7 @@ app.use(
     cors({
         origin: ["http://localhost:5173",
                 "http://localhost:5174",
-                "https://campus-placement-portal-indol.vercel.app/"],
+                "https://campus-placement-portal-indol.vercel.app"],
         credentials: true
     })
 );
