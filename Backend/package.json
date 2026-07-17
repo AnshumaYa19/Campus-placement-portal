@@ -15,6 +15,7 @@
   "dependencies": {
     "@google/genai": "^2.11.0",
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.10.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
@@ -24,6 +25,7 @@
     "multer": "^2.2.0",
     "nodemon": "^3.1.14",
     "pdf-parse": "^1.1.1",
-    "pdf-parser": "^1.0.5"
+    "pdf-parser": "^1.0.5",
+    "streamifier": "^0.1.1"
   }
 }

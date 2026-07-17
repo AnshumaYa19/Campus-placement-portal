@@ -9,5 +9,5 @@ export const uploadResume = (formData) => {
 };
 
 export const analyzeResume = () => {
-    return api.get("/profile/analyze-Resume");
+    return api.get("/profile/analyze-resume");
 };

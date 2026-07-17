@@ -85,7 +85,7 @@ const Profile = () => {
                                     ✓ Resume uploaded successfully
                                 </p>
                                 <a
-                                    href={`http://localhost:3000/${profile.resume}`}
+                                    href={profile.resume}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="resume-link"

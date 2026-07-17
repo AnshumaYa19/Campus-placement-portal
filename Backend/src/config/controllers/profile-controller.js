@@ -3,6 +3,8 @@ const {analyzeResume} = require("../../services/aiService")
 const pdf = require("pdf-parse");
 const fs = require("fs");
 const path = require("path")
+const cloudinary = require("../cloudinary"); 
+const streamifier = require("streamifier");
 
 async function getProfileController(req, res){
     try{
@@ -47,25 +49,51 @@ async function updateProfileController(req, res){
 }
 
 async function uploadResumeController(req, res) {
-
-    if (!req.file) {
-        return res.status(400).json({
+    try{
+        if (!req.file) {
+            return res.status(400).json({
             message: "Please upload a resume"
+            });
+        }
+    
+        const uploadStream = () =>
+            new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder: "placement-portal/resumes",
+                        resource_type: "raw"
+                    },
+                    (error, result) => {
+                        if (error) return reject(error);
+                        resolve(result);
+                    }
+                );
+
+                streamifier.createReadStream(req.file.buffer).pipe(stream);
+            });
+
+        const result = await uploadStream();        
+        const user = await userModel.findById(req.user.id);
+
+        user.resume = req.file.path;
+
+        await user.save();
+
+        res.status(200).json({
+            message: "Resume uploaded successfully",
+            resume: user.resume
+        });
+    }catch(err){
+        console.error(err);
+
+        res.status(500).json({
+            message: "Resume upload failed",
+            error: err.message
         });
     }
-
-    const user = await userModel.findById(req.user.id);
-
-    user.resume = req.file.path;
-
-    await user.save();
-
-    res.status(200).json({
-        message: "Resume uploaded successfully",
-        resume: user.resume
-    });
-
 }
+    
+    
 
 async function analyzeResumeController(req, res) {
 
