@@ -61,7 +61,7 @@ async function uploadResumeController(req, res) {
                 const stream = cloudinary.uploader.upload_stream(
                     {
                         folder: "placement-portal/resumes",
-                        resource_type: "raw"
+                        resource_type: "raw",
                         use_filename: true,
                         unique_filename: true
                     },
