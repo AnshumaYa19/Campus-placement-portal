@@ -62,6 +62,8 @@ async function uploadResumeController(req, res) {
                     {
                         folder: "placement-portal/resumes",
                         resource_type: "raw"
+                        use_filename: true,
+                        unique_filename: true
                     },
                     (error, result) => {
                         if (error) return reject(error);
