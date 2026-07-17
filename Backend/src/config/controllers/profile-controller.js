@@ -63,7 +63,9 @@ async function uploadResumeController(req, res) {
                         folder: "placement-portal/resumes",
                         resource_type: "raw",
                         use_filename: true,
-                        unique_filename: true
+                        unique_filename: true,
+                        format: "pdf"
+
                     },
                     (error, result) => {
                         if (error) return reject(error);
@@ -74,7 +76,11 @@ async function uploadResumeController(req, res) {
                 streamifier.createReadStream(req.file.buffer).pipe(stream);
             });
 
-        const result = await uploadStream();     
+        const result = await cloudinary.uploader.upload(filePath, {
+                            folder: "placement-portal/resumes",
+                            resource_type: "raw",
+                            public_id: `resume_${Date.now()}.pdf`
+        });     
         const user = await userModel.findById(req.user.id);
 
         user.resume = result.secure_url;
