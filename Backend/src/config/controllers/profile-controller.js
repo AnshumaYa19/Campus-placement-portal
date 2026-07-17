@@ -72,10 +72,10 @@ async function uploadResumeController(req, res) {
                 streamifier.createReadStream(req.file.buffer).pipe(stream);
             });
 
-        const result = await uploadStream();        
+        const result = await uploadStream();     
         const user = await userModel.findById(req.user.id);
 
-        user.resume = req.file.path;
+        user.resume = result.secure_url;
 
         await user.save();
 
