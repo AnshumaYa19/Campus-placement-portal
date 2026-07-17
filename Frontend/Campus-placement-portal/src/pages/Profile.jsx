@@ -61,6 +61,7 @@ const Profile = () => {
     }
 
     const user = JSON.parse(localStorage.getItem("user")) || {};
+    console.log(profile?.resume);
 
     return (
         <div className="profile-container">
@@ -90,7 +91,6 @@ const Profile = () => {
                                     rel="noreferrer"
                                     className="resume-link"
                                 >
-                                console.log(profile?.resume);
                                     View Resume
                                 </a>
                             </div>
