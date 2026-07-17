@@ -90,6 +90,7 @@ const Profile = () => {
                                     rel="noreferrer"
                                     className="resume-link"
                                 >
+                                console.log(profile?.resume);
                                     View Resume
                                 </a>
                             </div>
