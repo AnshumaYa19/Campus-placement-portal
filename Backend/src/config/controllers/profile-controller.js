@@ -3,7 +3,7 @@ const {analyzeResume} = require("../../services/aiService")
 const pdf = require("pdf-parse");
 const fs = require("fs");
 const path = require("path")
-const cloudinary = require("../cloudinary"); 
+const superbase = require("../superbase"); 
 const streamifier = require("streamifier");
 const axios = require("axios");
 
@@ -57,41 +57,32 @@ async function uploadResumeController(req, res) {
             message: "Please upload a resume"
             });
         }
-    const result = await new Promise((resolve, reject) => {
-                const stream = cloudinary.uploader.upload_stream(
-                    {
-                        folder: "placement-portal/resumes",
-                        resource_type: "auto",
-                        use_filename: true,
-                        unique_filename: false
-                    }, 
-                    (error, result) => {{
-                        if(error) return reject(error);
-                        resolve(error);
-                    }}
-                );
+    const fileName = `${Date.now()}-${req.file.originalname}`;
+    const { error } = await supabase.storage.from("resumes").upload(fileName, req.file.buffer, {
+                contentType: "application/pdf",
+                upsert: false
+    });
+    if (error) throw error;
 
-                streamifier.createReadStream(req.file.buffer).pipe(stream);
-            });    
-            console.log(result);
-            const user = await userModel.findById(req.user.id);
+    const { data } = supabase.storage.from("resumes").getPublicUrl(fileName);
+    const user = await userModel.findById(req.user.id);
 
-            user.resume = result.public_id;
+    user.resume = data.publicUrl;
 
-            await user.save();
+    await user.save();
 
-            res.status(200).json({
-                message: "Resume uploaded successfully",
-                resume: user.resume
-            });
-        }catch(err){
-            console.error(err);
+    res.status(200).json({
+        message: "Resume uploaded successfully",
+        resume: data.publicUrl
+    });
+    }catch(err){
+        console.error(err);
 
-            res.status(500).json({
-                message: "Resume upload failed",
-                error: err.message
-            });
-        }
+        res.status(500).json({
+            message: "Resume upload failed",
+            error: err.message
+        });
+    }
 }
 
 async function viewResumeController(req, res){
