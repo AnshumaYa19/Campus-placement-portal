@@ -6,7 +6,7 @@ const path = require("path")
 const cloudinary = require("../cloudinary"); 
 const streamifier = require("streamifier");
 const axios = require("axios");
-const cloudinary = require("../cloudinary")
+
 
 async function getProfileController(req, res){
     try{
