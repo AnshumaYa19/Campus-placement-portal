@@ -86,7 +86,7 @@ const Profile = () => {
                                     ✓ Resume uploaded successfully
                                 </p>
                                 <a
-                                    href={profile.resume}
+                                    href="https://campus-placement-portal-t5ky.onrender.com/api/profile/viewResume"
                                     target="_blank"
                                     rel="noreferrer"
                                     className="resume-link"

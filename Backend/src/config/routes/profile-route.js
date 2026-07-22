@@ -13,4 +13,7 @@ profileRouter.put("/updateprofile", authUser, profileController.updateProfileCon
 profileRouter.post("/uploadResume", authUser, upload.single("resume"), profileController.uploadResumeController);
 
 profileRouter.get("/analyze-resume", authUser, profileController.analyzeResumeController);
+
+profileRouter.get("/viewResume", authUser, profileController.viewResumeController);
+
 module.exports = profileRouter;

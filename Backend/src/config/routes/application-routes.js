@@ -11,4 +11,5 @@ applicationRouter.get('/getapplications', authUser, applicationController.getApp
 
 applicationRouter.put('/updateapplication/:applicationId/status', authUser, applicationController.updateApplicationStatusController);
 
+
 module.exports = applicationRouter;

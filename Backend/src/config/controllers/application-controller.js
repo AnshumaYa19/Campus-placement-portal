@@ -1,6 +1,5 @@
 const applicationModel = require('../models/application-model');
 const jobModel = require('../models/job-model');
-const {analyzeResume} = require("../../services/aiService")
 
 async function createApplicationController(req, res){
     if(req.user.role !== 'student'){
@@ -74,43 +73,6 @@ async function updateApplicationStatusController(req, res){
     
 }
 
-async function testAIController(req, res) {
-    try {
-
-        const sampleResume = `
-        Name: Anshuma Yadav
-
-        Skills:
-        Java
-        React
-        Node.js
-        MongoDB
-        Express.js
-
-        Projects:
-        AI Campus Placement Portal
-
-        Internship:
-        Web Development Intern
-
-        Education:
-        B.Tech CSE
-        `;
-
-        const result = await analyzeResume(sampleResume);
-
-        res.status(200).json({
-            analysis: result
-        });
-
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: err.message
-        });
-    }
-}
-
 module.exports = {
-    createApplicationController, getApplicationController, updateApplicationStatusController, testAIController
+    createApplicationController, getApplicationController, updateApplicationStatusController
 }

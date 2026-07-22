@@ -6,6 +6,7 @@ const path = require("path")
 const cloudinary = require("../cloudinary"); 
 const streamifier = require("streamifier");
 const axios = require("axios");
+const cloudinary = require("../cloudinary")
 
 async function getProfileController(req, res){
     try{
@@ -60,9 +61,9 @@ async function uploadResumeController(req, res) {
                 const stream = cloudinary.uploader.upload_stream(
                     {
                         folder: "placement-portal/resumes",
-                        resource_type: "raw",
+                        resource_type: "auto",
                         use_filename: true,
-                        unique_filename: true
+                        unique_filename: false
                     }, 
                     (error, result) => {{
                         if(error) return reject(error);
@@ -75,7 +76,7 @@ async function uploadResumeController(req, res) {
             console.log(result);
             const user = await userModel.findById(req.user.id);
 
-            user.resume = result.secure_url;
+            user.resume = result.public_id;
 
             await user.save();
 
@@ -91,6 +92,23 @@ async function uploadResumeController(req, res) {
                 error: err.message
             });
         }
+}
+
+async function viewResumeController(req, res){
+    try{
+        const user = await userModel.findById(req.user.id);
+        if(!user || !user.resume){
+            return res.status(404).json({
+                message: "Resume not found"
+            })
+        }
+        return res.redirect(user.resume);
+    }
+    catch (err){
+        return res.status(500).json({
+            message: err.message
+        })
+    }
 }
     
     
@@ -121,4 +139,4 @@ async function analyzeResumeController(req, res) {
 
 }
 
-module.exports = {getProfileController, updateProfileController, uploadResumeController, analyzeResumeController};
+module.exports = {getProfileController, updateProfileController, uploadResumeController, analyzeResumeController, viewResumeController};
