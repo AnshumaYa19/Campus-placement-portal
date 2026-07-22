@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path")
 const cloudinary = require("../cloudinary"); 
 const streamifier = require("streamifier");
+const axios = require("axios");
 
 async function getProfileController(req, res){
     try{
@@ -55,50 +56,41 @@ async function uploadResumeController(req, res) {
             message: "Please upload a resume"
             });
         }
-    
-        const uploadStream = () =>
-            new Promise((resolve, reject) => {
+    const result = await new Promise((resolve, reject) => {
                 const stream = cloudinary.uploader.upload_stream(
                     {
                         folder: "placement-portal/resumes",
                         resource_type: "raw",
                         use_filename: true,
-                        unique_filename: true,
-                        format: "pdf"
-
-                    },
-                    (error, result) => {
-                        if (error) return reject(error);
-                        resolve(result);
-                    }
+                        unique_filename: true
+                    }, 
+                    (error, result) => {{
+                        if(error) return reject(error);
+                        resolve(error);
+                    }}
                 );
 
                 streamifier.createReadStream(req.file.buffer).pipe(stream);
+            });    
+            console.log(result);
+            const user = await userModel.findById(req.user.id);
+
+            user.resume = result.secure_url;
+
+            await user.save();
+
+            res.status(200).json({
+                message: "Resume uploaded successfully",
+                resume: user.resume
             });
+        }catch(err){
+            console.error(err);
 
-        const result = await cloudinary.uploader.upload(filePath, {
-                            folder: "placement-portal/resumes",
-                            resource_type: "raw",
-                            public_id: `resume_${Date.now()}.pdf`
-        });     
-        const user = await userModel.findById(req.user.id);
-
-        user.resume = result.secure_url;
-
-        await user.save();
-
-        res.status(200).json({
-            message: "Resume uploaded successfully",
-            resume: user.resume
-        });
-    }catch(err){
-        console.error(err);
-
-        res.status(500).json({
-            message: "Resume upload failed",
-            error: err.message
-        });
-    }
+            res.status(500).json({
+                message: "Resume upload failed",
+                error: err.message
+            });
+        }
 }
     
     
@@ -113,9 +105,12 @@ async function analyzeResumeController(req, res) {
         });
     }
     
-    const filePath = path.resolve(user.resume);
-    const dataBuffer = fs.readFileSync(filePath);
- 
+    const response = await axios.get(user.resume, {
+    responseType: "arraybuffer"
+    });
+
+    const dataBuffer = Buffer.from(response.data);
+
     const parsed = await pdf(dataBuffer);
 
     const analysis = await analyzeResume(parsed.text);
