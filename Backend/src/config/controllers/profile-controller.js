@@ -3,7 +3,7 @@ const {analyzeResume} = require("../../services/aiService")
 const pdf = require("pdf-parse");
 const fs = require("fs");
 const path = require("path")
-const superbase = require("../superbase"); 
+const supabase = require("../supabase"); 
 const streamifier = require("streamifier");
 const axios = require("axios");
 
